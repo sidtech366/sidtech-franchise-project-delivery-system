@@ -10,6 +10,7 @@ import {
   NotificationItem,
 } from './types/database';
 import { SidTechDatabase } from './services/storage';
+import { checkApiHealth } from './services/api';
 
 // Common
 import { Navbar } from './components/common/Navbar';
@@ -47,6 +48,19 @@ import { AdminPayoutsManager } from './components/admin/AdminPayoutsManager';
 import { AdminSheetViewer } from './components/admin/AdminSheetViewer';
 
 export default function App() {
+  useEffect(() => {
+    checkApiHealth()
+      .then((result) => {
+        console.log('SidTech API:', result);
+      })
+      .catch((error) => {
+        console.error('SidTech API connection failed:', error);
+      });
+  }, []);
+
+  const [session, setSession] = useState<AuthSession | null>(
+    () => SidTechDatabase.getSession()
+  );
   const [session, setSession] = useState<AuthSession | null>(() => SidTechDatabase.getSession());
   const [activeTab, setActiveTab] = useState<string>('overview');
   const [selectedProjectId, setSelectedProjectId] = useState<string | undefined>();
