@@ -5,6 +5,7 @@ import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
+    base: '/sidtech-franchise-project-delivery-system/',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
